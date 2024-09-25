@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using RunGame;
 using UnityEngine;
 
 public class PlatformSpawner : MonoBehaviour
@@ -8,11 +9,33 @@ public class PlatformSpawner : MonoBehaviour
     public float obstacleSpawnTime = 2f;
     public float timeTillSpawn;
 
+    public int difficulty = 1;
+
     public float wooshSpeed = 2f;
+
+    GameManager gManager;
+    void Start()
+    {
+        gManager = GameManager.Instance;
+    }
 
     void Update()
     {
-        SpawnObject();
+        if (gManager.isPlaying())
+        {
+            SpawnObject();
+
+            if (gManager.GetTransferredPoints() == 10 && difficulty == 1)
+            {
+                wooshSpeed += 2;
+                difficulty++;
+            }
+            else if (gManager.GetTransferredPoints() == 25 && difficulty == 2)
+            {
+                wooshSpeed += 2;
+                difficulty++;
+            }
+        }
     }
 
     void SpawnObject()
